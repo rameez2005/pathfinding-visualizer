@@ -205,7 +205,7 @@ class DFS:
 
         return True
 
-
+# Uniform Cost Search (UCS) implementation
 class UCS:
     def __init__(self, grid):
         self.grid = grid
@@ -272,7 +272,7 @@ class UCS:
 
         return True
 
-
+# Depth-Limited Search (DLS) implementation
 class DLS:
     def __init__(self, grid, limit=7):
         self.grid = grid
@@ -337,7 +337,7 @@ class DLS:
 
         return True
 
-
+# Iterative Deepening DFS (IDDFS) implementation
 class IDDFS:
     def __init__(self, grid):
         self.grid = grid
