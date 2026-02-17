@@ -388,7 +388,7 @@ class IDDFS:
         self.grid.grid[self.grid.start[0]][self.grid.start[1]] = START
         self.grid.grid[self.grid.target[0]][self.grid.target[1]] = TARGET
 
-
+# Bidirectional Search implementation
 class Bidirectional:
     def __init__(self, grid):
         self.grid = grid
