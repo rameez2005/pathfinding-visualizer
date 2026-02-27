@@ -652,15 +652,32 @@ class PathfinderGUI:
             plt.pause(self.grid.step_delay)
 
     def on_click(self, event):
-        if event.inaxes == self.ax and not self.grid.searching and event.button == 1:
+        if event.inaxes == self.ax and not self.grid.searching:
             col = int(event.xdata)
             row = GRID_SIZE - 1 - int(event.ydata)
 
             if 0 <= row < GRID_SIZE and 0 <= col < GRID_SIZE:
-                if self.grid.grid[row][col] == EMPTY:
-                    self.grid.grid[row][col] = WALL
-                elif self.grid.grid[row][col] == WALL:
-                    self.grid.grid[row][col] = EMPTY
+                if event.button == 1:  # Left click: toggle walls
+                    if self.grid.grid[row][col] == EMPTY:
+                        self.grid.grid[row][col] = WALL
+                    elif self.grid.grid[row][col] == WALL:
+                        self.grid.grid[row][col] = EMPTY
+                elif event.button == 3:  # Right click: set target
+                    if (row, col) != self.grid.start:
+                        # Clear old target
+                        old = self.grid.target
+                        self.grid.grid[old[0]][old[1]] = EMPTY
+                        # Set new target
+                        self.grid.target = (row, col)
+                        self.grid.grid[row][col] = TARGET
+                elif event.button == 2:  # Middle click: set start
+                    if (row, col) != self.grid.target:
+                        # Clear old start
+                        old = self.grid.start
+                        self.grid.grid[old[0]][old[1]] = EMPTY
+                        # Set new start
+                        self.grid.start = (row, col)
+                        self.grid.grid[row][col] = START
                 self.update_display()
 
     def update_display(self):
@@ -696,7 +713,7 @@ class PathfinderGUI:
         elif self.algorithm and not self.grid.searching:
             self.ax.set_title("No Path Found", color='red')
         else:
-            self.ax.set_title("Click to add/remove walls")
+            self.ax.set_title("Left-click: walls | Right-click: target | Middle-click: start")
 
         self.fig.canvas.draw_idle()
 
